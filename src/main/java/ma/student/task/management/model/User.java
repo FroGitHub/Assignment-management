@@ -1,5 +1,6 @@
 package ma.student.task.management.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,10 +9,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -24,6 +30,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Setter
 @SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id = ?")
 @SQLRestriction("is_deleted = false")
+@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -41,7 +48,6 @@ public class User implements UserDetails {
     private String lastName;
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private boolean isDeleted = false;
-
     @ManyToMany
     @JoinTable(
             name = "users_roles",
@@ -49,6 +55,17 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+    @Setter(AccessLevel.PRIVATE)
+    @OneToMany(mappedBy = "assignee",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST,
+                    CascadeType.MERGE})
+    private List<Task> tasks = new ArrayList<>();
+
+    public void addTask(Task task) {
+        task.setAssignee(this);
+        tasks.add(task);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
