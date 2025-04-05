@@ -1,4 +1,4 @@
-package ma.student.task.management.service;
+package ma.student.task.management.service.impl;
 
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +11,7 @@ import ma.student.task.management.model.Role;
 import ma.student.task.management.model.User;
 import ma.student.task.management.repository.RoleRepository;
 import ma.student.task.management.repository.UserRepository;
+import ma.student.task.management.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
