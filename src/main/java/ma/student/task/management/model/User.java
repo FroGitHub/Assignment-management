@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -30,7 +29,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Setter
 @SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id = ?")
 @SQLRestriction("is_deleted = false")
-@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -62,11 +60,6 @@ public class User implements UserDetails {
                     CascadeType.MERGE})
     private List<Task> tasks = new ArrayList<>();
 
-    public void addTask(Task task) {
-        task.setAssignee(this);
-        tasks.add(task);
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
@@ -74,7 +67,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.username;
     }
 
     @Override
