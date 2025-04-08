@@ -1,6 +1,5 @@
 package ma.student.task.management.service.impl;
 
-import jakarta.persistence.EntityManager;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import ma.student.task.management.dto.comment.CommentCreateRequestDto;
