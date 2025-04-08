@@ -39,4 +39,3 @@ databaseChangeLog:
                     foreignKeyName: fk_comments_user
                     references: users(id)
                     deleteCascade: true
-
