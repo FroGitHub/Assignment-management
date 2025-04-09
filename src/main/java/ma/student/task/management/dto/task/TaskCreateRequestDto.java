@@ -21,8 +21,8 @@ public class TaskCreateRequestDto {
     private Status status;
     @NotNull
     private LocalDate dueDate;
-    @NotBlank
+    @NotNull
     private Long projectId;
-    @NotBlank
+    @NotNull
     private Long assigneeId;
 }

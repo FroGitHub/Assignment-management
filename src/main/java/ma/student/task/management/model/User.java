@@ -60,6 +60,10 @@ public class User implements UserDetails {
                     CascadeType.MERGE})
     private List<Task> tasks = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Comment> comments = new ArrayList<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
