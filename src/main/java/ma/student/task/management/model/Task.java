@@ -47,6 +47,7 @@ public class Task {
     private Status status;
     @Column(nullable = false)
     private LocalDate dueDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id",
             foreignKey = @ForeignKey(name = "fk_tasks_project"))
