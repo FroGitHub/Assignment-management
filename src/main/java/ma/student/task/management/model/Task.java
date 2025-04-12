@@ -59,9 +59,13 @@ public class Task {
     private User assignee;
 
     @Setter(AccessLevel.PRIVATE)
-    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "task", orphanRemoval = true,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Comment> comments = new ArrayList<>();
+
+    @Setter(AccessLevel.PRIVATE)
+    @OneToMany(mappedBy = "task", orphanRemoval = true)
+    private List<Attachment> attachments = new ArrayList<>();
 
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private boolean isDeleted = false;
@@ -73,6 +77,11 @@ public class Task {
     public void addComment(Comment comment) {
         comment.setTask(this);
         comments.add(comment);
+    }
+
+    public void addAttachment(Attachment attachment) {
+        attachment.setTask(this);
+        attachments.add(attachment);
     }
 
     public enum Priority {
