@@ -6,17 +6,22 @@ import ma.student.task.management.dto.label.LabelDto;
 import ma.student.task.management.exception.EntityNotFoundException;
 import ma.student.task.management.mapper.LabelMapper;
 import ma.student.task.management.model.Label;
+import ma.student.task.management.model.Task;
 import ma.student.task.management.repository.LabelRepository;
+import ma.student.task.management.repository.TaskRepository;
 import ma.student.task.management.service.LabelService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class LabelServiceIml implements LabelService {
 
     private final LabelRepository labelRepository;
+    private final TaskRepository taskRepository;
     private final LabelMapper labelMapper;
 
     @Override
@@ -26,8 +31,13 @@ public class LabelServiceIml implements LabelService {
 
     @Override
     public LabelDto createLabels(LabelCreateRequestDto createRequestDto) {
+        Task task = taskRepository.findById(createRequestDto.getTaskId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "There is no task with id: " + createRequestDto.getTaskId()));
         Label label = labelMapper.toModel(createRequestDto);
-        return labelMapper.toDto(labelRepository.save(label));
+        task.setLabel(label);
+        taskRepository.flush();
+        return labelMapper.toDto(label);
     }
 
     @Override

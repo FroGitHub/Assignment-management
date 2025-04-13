@@ -7,9 +7,8 @@ databaseChangeLog:
             tableName: labels
             columns:
               - column:
-                  name: id
+                  name: task_id
                   type: BIGINT
-                  autoIncrement: true
                   constraints:
                     nullable: false
                     primaryKey: true
@@ -29,3 +28,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValueBoolean: false
+        - addForeignKeyConstraint:
+            baseTableName: labels
+            baseColumnNames: task_id
+            constraintName: id_to_task_id
+            referencedTableName: tasks
+            referencedColumnNames: id
+            onDelete: CASCADE
+

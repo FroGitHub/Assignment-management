@@ -8,6 +8,8 @@ import ma.student.task.management.model.Label;
 
 @Data
 public class LabelCreateRequestDto {
+    @NotNull
+    private Long taskId;
     @NotBlank
     @Size(min = 4, message = "label name should be longer then 4")
     private String name;

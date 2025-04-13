@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -67,6 +68,10 @@ public class Task {
     @OneToMany(mappedBy = "task", orphanRemoval = true)
     private List<Attachment> attachments = new ArrayList<>();
 
+    @OneToOne(mappedBy = "task",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Label label;
+
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private boolean isDeleted = false;
 
@@ -82,6 +87,11 @@ public class Task {
     public void addAttachment(Attachment attachment) {
         attachment.setTask(this);
         attachments.add(attachment);
+    }
+
+    public void setLabel(Label label) {
+        label.setTask(this);
+        this.label = label;
     }
 
     @Override
