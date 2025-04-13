@@ -33,7 +33,7 @@ public class LabelController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public LabelDto createLabel(
             @RequestBody @Valid LabelCreateRequestDto createRequestDto) {
@@ -41,7 +41,7 @@ public class LabelController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public LabelDto updateLabel(
             @PathVariable Long id,
             @RequestBody @Valid LabelCreateRequestDto createRequestDto) {
@@ -49,7 +49,7 @@ public class LabelController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLabel(@PathVariable Long id) {
         labelService.deleteLabel(id);

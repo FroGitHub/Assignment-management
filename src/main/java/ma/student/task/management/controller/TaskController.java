@@ -34,7 +34,7 @@ public class TaskController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public TaskDto createTask(Authentication authentication,
                               @RequestBody @Valid TaskCreateRequestDto createRequestDto) {
@@ -42,7 +42,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public TaskDto updateTask(Authentication authentication,
                               @PathVariable Long id,
                               @RequestBody @Valid TaskCreateRequestDto createRequestDto) {
@@ -56,7 +56,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable Long id,
                               Authentication authentication) {

@@ -33,7 +33,7 @@ public class ProjectController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public ProjectDto createProject(
             @RequestBody @Valid ProjectCreateRequestDto createRequestDto) {
@@ -41,7 +41,7 @@ public class ProjectController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ProjectDto updateProject(
             @PathVariable Long id,
             @RequestBody @Valid ProjectCreateRequestDto createRequestDto) {
@@ -56,7 +56,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProject(
             @PathVariable Long id) {
