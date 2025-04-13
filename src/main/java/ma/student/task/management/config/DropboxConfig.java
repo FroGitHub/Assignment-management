@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class DropboxConfig {
 
     @Bean
-    public DbxClientV2 dropboxClient(@Value("${dropbox.token:testToken}") String accessToken) {
+    public DbxClientV2 dropboxClient(@Value("${dropbox.token}") String accessToken) {
         DbxRequestConfig config = DbxRequestConfig
                 .newBuilder("spring-dropbox-app")
                 .build();

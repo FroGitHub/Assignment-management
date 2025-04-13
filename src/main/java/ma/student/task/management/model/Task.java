@@ -84,6 +84,15 @@ public class Task {
         attachments.add(attachment);
     }
 
+    @Override
+    public String toString() {
+        return "\nProject: " + project.getName() + "(" + project.getStatus() + ")"
+                + "\nTask: " + name + "(" + status + ")"
+                + "\nPriority: " + priority
+                + "\nDescription: " + description
+                + "\nDue to: " + dueDate;
+    }
+
     public enum Priority {
         LOW,
         MEDIUM,

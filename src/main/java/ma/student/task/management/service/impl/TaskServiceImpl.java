@@ -11,6 +11,7 @@ import ma.student.task.management.model.User;
 import ma.student.task.management.repository.ProjectRepository;
 import ma.student.task.management.repository.TaskRepository;
 import ma.student.task.management.repository.UserRepository;
+import ma.student.task.management.service.EmailService;
 import ma.student.task.management.service.TaskService;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,7 @@ public class TaskServiceImpl implements TaskService {
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
+    private final EmailService emailService;
 
     @Override
     public Page<TaskDto> getTasks(Pageable pageable) {
@@ -45,7 +47,10 @@ public class TaskServiceImpl implements TaskService {
 
         task.setProject(userAndProject.getRight());
         task.setAssignee(userAndProject.getLeft());
-        // send Email to user, create it later
+
+        emailService.sendEmail(task.getAssignee().getEmail(),
+                "You got new task!" + task);
+
         return taskMapper.toDto(taskRepository.save(task));
     }
 
@@ -73,14 +78,21 @@ public class TaskServiceImpl implements TaskService {
         task.setAssignee(userAndProject.getLeft());
 
         taskMapper.updateTask(task, createRequestDto);
-        // Send Email
+
+        emailService.sendEmail(task.getAssignee().getEmail(),
+                "Your task was updated!" + task);
+
         return taskMapper.toDto(taskRepository.save(task));
     }
 
     @Override
     public void deleteTask(Long id, Authentication authentication) {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "There is no task with id: " + id));
+        emailService.sendEmail(task.getAssignee().getEmail(),
+                "Your task was deleted!" + task);
         taskRepository.deleteById(id);
-        //Send Email
     }
 
     private Pair<User, Project> getExistingUserAndProject(Long userId, Long projectId) {
