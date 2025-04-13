@@ -13,6 +13,7 @@ public interface LabelMapper {
 
     LabelDto toDto(Label label);
 
+    @Mapping(target = "id", source = "taskId")
     Label toModel(LabelCreateRequestDto createRequestDto);
 
     @Mapping(target = "id", ignore = true)

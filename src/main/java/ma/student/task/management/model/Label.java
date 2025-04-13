@@ -7,6 +7,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,13 +25,17 @@ import org.hibernate.annotations.SQLRestriction;
 public class Label {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Color color;
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "task_id")
+    private Task task;
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private boolean isDeleted = false;
 
