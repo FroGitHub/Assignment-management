@@ -124,7 +124,7 @@ Admin capabilities:
   * Select "Turn off"
 
 
-6. Open the terminal and run the following commands:
+5. Open the terminal and run the following commands:
 
 
     docker-compose build  # Build the images
@@ -149,7 +149,7 @@ Open application.properties.
     
     `Password`
 
-2. Same algorithm as docker: 3 - 5.
+2. Same algorithm as docker: 3 - 4.
 
 3. Run application.
 
