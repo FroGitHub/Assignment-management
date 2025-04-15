@@ -1,5 +1,7 @@
 package ma.student.task.management.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ma.student.task.management.dto.project.ProjectCreateRequestDto;
@@ -22,12 +24,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/projects")
+@Tag(name = "Project", description =
+        "Endpoints for get, add, update and delete project")
 public class ProjectController {
 
     private final ProjectService projectService;
 
     @GetMapping
     @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "Get projects",
+            description = "Get projects")
     public Page<ProjectDto> getProjects(Pageable pageable) {
         return projectService.getProjects(pageable);
     }
@@ -35,6 +41,8 @@ public class ProjectController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Create project",
+            description = "Create project")
     public ProjectDto createProject(
             @RequestBody @Valid ProjectCreateRequestDto createRequestDto) {
         return projectService.createProject(createRequestDto);
@@ -42,6 +50,8 @@ public class ProjectController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Update project",
+            description = "Update project")
     public ProjectDto updateProject(
             @PathVariable Long id,
             @RequestBody @Valid ProjectCreateRequestDto createRequestDto) {
@@ -50,6 +60,8 @@ public class ProjectController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "Get project",
+            description = "Get project by id")
     public ProjectDto getProject(
             @PathVariable Long id) {
         return projectService.getProject(id);
@@ -58,6 +70,8 @@ public class ProjectController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete project",
+            description = "Soft delete project")
     public void deleteProject(
             @PathVariable Long id) {
         projectService.deleteProject(id);

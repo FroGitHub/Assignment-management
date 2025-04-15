@@ -1,5 +1,7 @@
 package ma.student.task.management.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ma.student.task.management.dto.label.LabelCreateRequestDto;
@@ -22,12 +24,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/labels")
 @RequiredArgsConstructor
+@Tag(name = "Label", description =
+        "Endpoints for get, add, update and delete labels")
 public class LabelController {
 
     private final LabelService labelService;
 
     @GetMapping
     @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "Get labels",
+            description = "Get labels")
     public Page<LabelDto> getLabels(Pageable pageable) {
         return labelService.getLabels(pageable);
     }
@@ -35,6 +41,8 @@ public class LabelController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Create label",
+            description = "Create label for task")
     public LabelDto createLabel(
             @RequestBody @Valid LabelCreateRequestDto createRequestDto) {
         return labelService.createLabels(createRequestDto);
@@ -42,6 +50,8 @@ public class LabelController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Update label",
+            description = "Update label for task")
     public LabelDto updateLabel(
             @PathVariable Long id,
             @RequestBody @Valid LabelCreateRequestDto createRequestDto) {
@@ -51,6 +61,8 @@ public class LabelController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete label",
+            description = "Soft delete label")
     public void deleteLabel(@PathVariable Long id) {
         labelService.deleteLabel(id);
     }
