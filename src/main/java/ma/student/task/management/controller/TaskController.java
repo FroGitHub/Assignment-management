@@ -1,5 +1,7 @@
 package ma.student.task.management.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ma.student.task.management.dto.task.TaskCreateRequestDto;
@@ -23,12 +25,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/tasks")
+@Tag(name = "Task", description =
+        "Endpoints for get, add, update and delete task")
 public class TaskController {
 
     private final TaskService taskService;
 
     @GetMapping
     @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "Get tasks",
+            description = "Get tasks")
     public Page<TaskDto> getTasks(Pageable pageable) {
         return taskService.getTasks(pageable);
     }
@@ -36,6 +42,8 @@ public class TaskController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Create task",
+            description = "Create task and send Email to assignee that he got task")
     public TaskDto createTask(Authentication authentication,
                               @RequestBody @Valid TaskCreateRequestDto createRequestDto) {
         return taskService.createTask(authentication, createRequestDto);
@@ -43,6 +51,8 @@ public class TaskController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Update task",
+            description = "Update task and send Email to assignee about it")
     public TaskDto updateTask(Authentication authentication,
                               @PathVariable Long id,
                               @RequestBody @Valid TaskCreateRequestDto createRequestDto) {
@@ -51,6 +61,8 @@ public class TaskController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "Get task",
+            description = "Get task by id")
     public TaskDto getTask(@PathVariable Long id) {
         return taskService.getTask(id);
     }
@@ -58,6 +70,8 @@ public class TaskController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete task",
+            description = "Soft delete task")
     public void deleteTask(@PathVariable Long id,
                               Authentication authentication) {
         taskService.deleteTask(id, authentication);

@@ -69,7 +69,7 @@ class AttachmentControllerTest {
                         .file(file)
                         .param("taskId", "1")
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn();
 
         AttachmentDto response = objectMapper.readValue(

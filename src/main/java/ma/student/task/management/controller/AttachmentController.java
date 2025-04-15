@@ -1,5 +1,7 @@
 package ma.student.task.management.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import ma.student.task.management.dto.attachment.AttachmentDto;
 import ma.student.task.management.service.AttachmentService;
@@ -21,11 +23,17 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/attachments")
 @RequiredArgsConstructor
+@Tag(name = "Attachments", description =
+        "Endpoints for upload, download and delete files in cloud storage")
 public class AttachmentController {
     private final AttachmentService attachmentService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('USER')")
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Upload file",
+            description = "Upload and save file in cloud storage, "
+                    + "save info about it in DB")
     public AttachmentDto upload(@RequestParam(value = "file") MultipartFile file,
                                 @RequestParam("taskId") Long taskId) throws Exception {
         return attachmentService.uploadAttachment(file, taskId);
@@ -33,6 +41,8 @@ public class AttachmentController {
 
     @GetMapping
     @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "Get attachments and download files",
+            description = "Get and download files on PC(in download folder)")
     public Page<AttachmentDto> getAttachments(Pageable pageable,
                                               @RequestParam Long taskId) {
         return attachmentService.getAttachmentsByTask(pageable, taskId);
@@ -41,6 +51,8 @@ public class AttachmentController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete attachment",
+            description = "Delete file from DB and cloud storage")
     public void deleteAttachment(@PathVariable Long id) throws Exception {
         attachmentService.deleteAttachment(id);
     }
