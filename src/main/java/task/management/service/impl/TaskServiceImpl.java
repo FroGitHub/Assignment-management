@@ -1,6 +1,11 @@
 package task.management.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 import task.management.dto.task.TaskCreateRequestDto;
 import task.management.dto.task.TaskDto;
 import task.management.exception.EntityNotFoundException;
@@ -13,11 +18,6 @@ import task.management.repository.TaskRepository;
 import task.management.repository.UserRepository;
 import task.management.service.EmailService;
 import task.management.service.TaskService;
-import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

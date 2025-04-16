@@ -3,8 +3,6 @@ package task.management.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import task.management.dto.attachment.AttachmentDto;
-import task.management.service.AttachmentService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -19,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import task.management.dto.attachment.AttachmentDto;
+import task.management.service.AttachmentService;
 
 @RestController
 @RequestMapping("/attachments")

@@ -2,6 +2,10 @@ package task.management.service.impl;
 
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 import task.management.dto.comment.CommentCreateRequestDto;
 import task.management.dto.comment.CommentDto;
 import task.management.exception.EntityNotFoundException;
@@ -12,10 +16,6 @@ import task.management.model.User;
 import task.management.repository.CommentRepository;
 import task.management.repository.TaskRepository;
 import task.management.service.CommentService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

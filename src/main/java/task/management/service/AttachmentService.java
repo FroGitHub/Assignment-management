@@ -1,9 +1,9 @@
 package task.management.service;
 
-import task.management.dto.attachment.AttachmentDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
+import task.management.dto.attachment.AttachmentDto;
 
 public interface AttachmentService {
     AttachmentDto uploadAttachment(MultipartFile file, Long taskId) throws Exception;

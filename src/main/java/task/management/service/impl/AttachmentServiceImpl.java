@@ -2,6 +2,11 @@ package task.management.service.impl;
 
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import task.management.dto.attachment.AttachmentDto;
 import task.management.exception.EntityNotFoundException;
 import task.management.mapper.AttachmentMapper;
@@ -11,11 +16,6 @@ import task.management.repository.AttachmentRepository;
 import task.management.repository.TaskRepository;
 import task.management.service.AttachmentService;
 import task.management.service.DropboxService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor

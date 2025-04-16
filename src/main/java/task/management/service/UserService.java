@@ -1,12 +1,12 @@
 package task.management.service;
 
+import org.springframework.security.core.Authentication;
 import task.management.dto.user.UserRegistrationRequestDto;
 import task.management.dto.user.UserResponseDto;
 import task.management.dto.user.UserUpdateRequestDto;
 import task.management.dto.user.UserUpdateRoleRequestDto;
 import task.management.dto.user.UserWithRoleDto;
 import task.management.exception.RegistrationException;
-import org.springframework.security.core.Authentication;
 
 public interface UserService {
 

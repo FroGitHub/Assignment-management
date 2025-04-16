@@ -1,12 +1,12 @@
 package task.management.mapper;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import task.management.config.MapperConfig;
 import task.management.dto.task.TaskCreateRequestDto;
 import task.management.dto.task.TaskDto;
 import task.management.model.Task;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 
 @Mapper(config = MapperConfig.class)
 public interface TaskMapper {

@@ -4,6 +4,10 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import task.management.dto.user.UserRegistrationRequestDto;
 import task.management.dto.user.UserResponseDto;
 import task.management.dto.user.UserUpdateRequestDto;
@@ -17,10 +21,6 @@ import task.management.model.User;
 import task.management.repository.RoleRepository;
 import task.management.repository.UserRepository;
 import task.management.service.UserService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional

@@ -1,10 +1,10 @@
 package task.management.service;
 
-import task.management.dto.task.TaskCreateRequestDto;
-import task.management.dto.task.TaskDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import task.management.dto.task.TaskCreateRequestDto;
+import task.management.dto.task.TaskDto;
 
 public interface TaskService {
 

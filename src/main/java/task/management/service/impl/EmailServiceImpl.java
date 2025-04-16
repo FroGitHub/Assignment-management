@@ -1,11 +1,11 @@
 package task.management.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import task.management.service.EmailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import task.management.service.EmailService;
 
 @Service
 @RequiredArgsConstructor
