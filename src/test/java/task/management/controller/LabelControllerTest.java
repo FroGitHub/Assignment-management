@@ -1,31 +1,21 @@
 package task.management.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*; // <- оце головне
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
+import org.springframework.test.context.jdbc.Sql;
 import task.management.dto.label.LabelCreateRequestDto;
-import task.management.dto.label.LabelDto;
 import task.management.model.Label;
-import task.management.service.LabelService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -35,26 +25,25 @@ class LabelControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private LabelService labelService;
-
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
     @DisplayName("Create label - success")
-    void createLabel_success() throws Exception {
+    @Sql(scripts = {"classpath:database/user/create-user.sql",
+            "classpath:database/project/create-project.sql",
+            "classpath:database/task/create-task.sql"},
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {"classpath:database/label/delete-label-with-id-1.sql",
+            "classpath:database/task/delete-task-with-id-1.sql",
+            "classpath:database/project/delete-project-with-id-1.sql",
+            "classpath:database/user/delete-user-with-id-1.sql"},
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void createLabelTest_createLabel_ok() throws Exception {
         LabelCreateRequestDto request = new LabelCreateRequestDto();
         request.setTaskId(1L);
         request.setName("Urgent");
         request.setColor(Label.Color.RED);
-
-        LabelDto response = new LabelDto();
-        response.setId(1L);
-        response.setName("Urgent");
-        response.setColor(Label.Color.RED);
-
-        when(labelService.createLabels(any())).thenReturn(response);
 
         mockMvc.perform(post("/labels")
                         .with(csrf())
@@ -68,18 +57,21 @@ class LabelControllerTest {
 
     @Test
     @DisplayName("Update label - success")
-    void updateLabel_success() throws Exception {
+    @Sql(scripts = {"classpath:database/user/create-user.sql",
+            "classpath:database/project/create-project.sql",
+            "classpath:database/task/create-task.sql",
+            "classpath:database/label/create-label.sql"},
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {"classpath:database/label/delete-label-with-id-1.sql",
+            "classpath:database/task/delete-task-with-id-1.sql",
+            "classpath:database/project/delete-project-with-id-1.sql",
+            "classpath:database/user/delete-user-with-id-1.sql"},
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void updateLabelTest_updateLabel_ok() throws Exception {
         LabelCreateRequestDto request = new LabelCreateRequestDto();
         request.setTaskId(1L);
         request.setName("Updated");
         request.setColor(Label.Color.GREEN);
-
-        LabelDto response = new LabelDto();
-        response.setId(1L);
-        response.setName("Updated");
-        response.setColor(Label.Color.GREEN);
-
-        when(labelService.updateLabel(eq(1L), any())).thenReturn(response);
 
         mockMvc.perform(put("/labels/1")
                         .with(csrf())
@@ -93,35 +85,46 @@ class LabelControllerTest {
     @Test
     @DisplayName("Get labels - success")
     @WithMockUser(roles = "USER")
-        // для GET-ендпоінту
-    void getLabels_success() throws Exception {
-        LabelDto label = new LabelDto();
-        label.setId(1L);
-        label.setName("Bug");
-        label.setColor(Label.Color.BLUE);
-
-        Page<LabelDto> page = new PageImpl<>(List.of(label));
-
-        when(labelService.getLabels(any())).thenReturn(page);
-
+    @Sql(scripts = {"classpath:database/user/create-user.sql",
+            "classpath:database/project/create-project.sql",
+            "classpath:database/task/create-task.sql",
+            "classpath:database/label/create-label.sql"},
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {"classpath:database/label/delete-label-with-id-1.sql",
+            "classpath:database/task/delete-task-with-id-1.sql",
+            "classpath:database/project/delete-project-with-id-1.sql",
+            "classpath:database/user/delete-user-with-id-1.sql"},
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void getLabelsTest_getLabels_ok() throws Exception {
         mockMvc.perform(get("/labels"))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].id")
+                        .value(1L))
                 .andExpect(jsonPath("$.content[0].name")
-                        .value("Bug"));
+                        .value("label"))
+                .andExpect(jsonPath("$.content[0].color")
+                        .value("RED"));
     }
 
     @Test
     @DisplayName("Delete label - success")
-    void deleteLabel_success() throws Exception {
-        doNothing().when(labelService).deleteLabel(1L);
-
+    @Sql(scripts = {"classpath:database/user/create-user.sql",
+            "classpath:database/project/create-project.sql",
+            "classpath:database/task/create-task.sql",
+            "classpath:database/label/create-label.sql"},
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {"classpath:database/task/delete-task-with-id-1.sql",
+            "classpath:database/project/delete-project-with-id-1.sql",
+            "classpath:database/user/delete-user-with-id-1.sql"},
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void deleteLabelTest_deleteTest_ok() throws Exception {
         mockMvc.perform(delete("/labels/1").with(csrf()))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     @DisplayName("Create label - validation fail (short name)")
-    void createLabel_validationFail_shortName() throws Exception {
+    void createLabelTest_validationFail_notOk() throws Exception {
         LabelCreateRequestDto request = new LabelCreateRequestDto();
         request.setTaskId(1L);
         request.setName("ab");

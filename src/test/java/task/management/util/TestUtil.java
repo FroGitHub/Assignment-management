@@ -54,10 +54,10 @@ public class TestUtil {
     public static TaskDto getTaskDto() {
         return new TaskDto(1L,
                 "task",
-                "description",
+                "descrpt",
                 "LOW",
                 "IN_PROGRESS",
-                LocalDate.of(2025, 1, 1),
+                LocalDate.of(2025, 5, 1),
                 1L, 1L);
     }
 
@@ -77,7 +77,7 @@ public class TestUtil {
         User user = new User();
         user.setId(1L);
         user.setUsername("user");
-        user.setPassword("123");
+        user.setPassword("securePassword123");
         user.setEmail("user@gmail.com");
         user.setRoles(new HashSet<>(Role.USER));
         user.setFirstName("user");
@@ -106,5 +106,18 @@ public class TestUtil {
         requestDto.setFirstName("Updated");
         requestDto.setLastName("Name");
         return requestDto;
+    }
+
+    public static TaskDto getCreatedTask() {
+        return new TaskDto(
+                1L,
+                "New Task",
+                "New description",
+                Task.Priority.HIGH.toString(),
+                Status.IN_PROGRESS.toString(),
+                LocalDate.of(2025, 6, 1),
+                1L,
+                1L
+        );
     }
 }
