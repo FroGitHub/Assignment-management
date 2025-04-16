@@ -11,7 +11,7 @@
 		<relativePath/>
 	</parent>
 
-	<groupId>ma.student</groupId>
+	<groupId>task.management</groupId>
 	<artifactId>task.management</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>task.management</name>
