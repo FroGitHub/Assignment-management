@@ -1,6 +1,6 @@
-# Task management
+# Assignment management
 
-Task Management App is a portfolio project for organizing tasks and projects.
+Assignment management App is a portfolio project for organizing tasks and projects.
 Users can create projects, add tasks, and assign them to other users.
 
 Key Features:
@@ -54,7 +54,7 @@ Admin capabilities:
 1. Update user`s role.
 2. Create, update and delete projects/tasks/labels.
 
-### Task management`s endpoints
+### Assignment management`s endpoints
 
     Auth (/auth):
         GET: /registration - Register a new user
@@ -94,7 +94,7 @@ Admin capabilities:
         POST: / - Add a comment to a task
         GET: / - Retrieve paginated list of comments by task ID
 
-### Running Task management project
+### Running project
 
 **Docker:**
 
